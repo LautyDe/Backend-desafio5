@@ -47,11 +47,11 @@ socketServer.on("connection", async socket => {
 
   socket.on("newProduct", async data => {
     await productManager.addProduct(data);
-    io.sockets.emit("products", products);
+    socket.emit("products", products);
   });
 
   socket.on("deleteProduct", async id => {
     const products = await productManager.deleteById(id);
-    io.sockets.emit("products", products);
+    socket.emit("products", products);
   });
 });
