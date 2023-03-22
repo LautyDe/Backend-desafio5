@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import routers from "./src/routers/index.routers.js";
 import { __dirname } from "./src/utils.js";
 import handlebars from "express-handlebars";

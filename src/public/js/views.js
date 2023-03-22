@@ -50,8 +50,7 @@ function paramsValidator(product) {
   }
 }
 
-function addProduct(e) {
-  e.preventDefault();
+function addProduct() {
   const product = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
@@ -63,5 +62,4 @@ function addProduct(e) {
   if (paramsValidator(product)) {
     socketClient.emit("newProduct", product);
   }
-  return false;
 }

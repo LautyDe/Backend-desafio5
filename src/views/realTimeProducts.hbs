@@ -4,7 +4,7 @@
 
 <h2>Agregar producto 👀</h2>
 
-<form>
+<form action="/" method="post">
   <input type="text" id="title" name="title" placeholder="Title" />
   <input
     type="text"
@@ -16,7 +16,7 @@
   <input type="text" id="thumbnail" name="thumbnail" placeholder="Thumbnail" />
   <input type="text" id="category" name="category" placeholder="Category" />
   <input type="number" id="stock" name="stock" placeholder="Stock" />
-  <button type="submit" id="addProduct">Agregar</button>
+  <input type="button" value="Agregar" onclick="addProduct()"></input>
 </form>
 
 <script src="/js/views.js"></script>
