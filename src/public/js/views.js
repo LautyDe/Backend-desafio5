@@ -17,9 +17,9 @@ function render(data) {
       }' class='img'>
       <div>${item.category}</div>  
       <div>${item.stock}</div>
-      <button id='deleteProduct' onClick=deleteProduct(${
+      <input type="button" value="Eliminar producto 😭" onclick="deleteProduct(${
         item.id
-      })>Eliminar producto 😭</button>
+      })"></input>
       `;
     })
     .join(" ");
@@ -64,4 +64,8 @@ function addProduct() {
     const form = document.getElementById("formularioAddProduct");
     form.reset();
   }
+}
+
+function deleteProduct(id) {
+  socketClient.emit("deleteProduct", id);
 }
