@@ -3,6 +3,8 @@ import routers from "./src/routers/index.routers.js";
 import { __dirname } from "./src/utils.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
+import ProductManager from "./src/controllers/productManager.js";
+const productManager = new ProductManager("src/db/products.json");
 
 const app = express();
 const PORT = 8080;
@@ -39,3 +41,12 @@ httpServer.on("error", error =>
 
 /* webSocket */
 const socketServer = new Server(httpServer);
+socketServer.on("connection", async socket => {
+  const products = await productManager.getAll();
+  socket.emit("products", products);
+
+  socket.on("newProduct", async data => {
+    await productManager.addProduct(data);
+    io.sockets.emit("products", products);
+  });
+});
