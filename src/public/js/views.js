@@ -11,10 +11,15 @@ function render(data) {
       <div>${item.title}</div>
       <div>${item.description}</div>
       <div>${item.price}</div>
-      <img src='${item.thumbnail}' class='img'>
+      <img src='${
+        item.thumbnail ||
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
+      }' class='img'>
       <div>${item.category}</div>  
       <div>${item.stock}</div>
-      <button id='deleteProduct' onClick=deleteProduct(${item.id})>Eliminar producto 😭</button>
+      <button id='deleteProduct' onClick=deleteProduct(${
+        item.id
+      })>Eliminar producto 😭</button>
       `;
     })
     .join(" ");
