@@ -61,5 +61,7 @@ function addProduct() {
   };
   if (paramsValidator(product)) {
     socketClient.emit("newProduct", product);
+    const form = document.getElementById("formularioAddProduct");
+    form.reset();
   }
 }
