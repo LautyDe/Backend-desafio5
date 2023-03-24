@@ -1,4 +1,7 @@
 import fs from "fs";
+import FileManager from "./fileManager.js";
+
+const fileManager = new FileManager("src/db/carts.json");
 
 export default class CartManager {
   constructor(archivo) {
