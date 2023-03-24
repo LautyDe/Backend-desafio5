@@ -52,13 +52,15 @@ function paramsValidator(product) {
 }
 
 function addProduct() {
+  const price = document.getElementById("price").value;
+  const stock = document.getElementById("stock").value;
   const product = {
     title: document.getElementById("title").value,
     description: document.getElementById("description").value,
-    price: document.getElementById("price").value,
+    price: parseInt(price),
     thumbnail: document.getElementById("thumbnail").value,
     category: document.getElementById("category").value,
-    stock: document.getElementById("stock").value,
+    stock: parseInt(stock),
   };
   if (paramsValidator(product)) {
     socketClient.emit("newProduct", product);
