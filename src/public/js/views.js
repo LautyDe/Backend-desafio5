@@ -7,7 +7,7 @@ socketClient.on("products", data => {
 function render(data) {
   const html = data
     .map(item => {
-      return `<div class="productsCard">
+      return `<div class="product">
       <div>${item.title}</div>
       <div>${item.description}</div>
       <div>${item.price}</div>

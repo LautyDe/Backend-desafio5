@@ -108,5 +108,27 @@
     "thumbnail": "https://bittstores.com/wp-content/uploads/2022/09/Apple-iPhone-14-Pro-deep-purple-.jpeg",
     "category": "Electronic",
     "stock": 2
+  },
+  {
+    "id": 11,
+    "code": "LIRqmBPRM5IfQUP",
+    "status": true,
+    "title": "Samsung S23 Ultra",
+    "description": "Celular Samsung",
+    "price": 500000,
+    "thumbnail": "https://image-us.samsung.com/us/smartphones/galaxy-s23/images/gallery/cream/01-DM1-Cream-PDP-1600x1200.jpg?$product-details-jpg$",
+    "category": "Electronic",
+    "stock": 5
+  },
+  {
+    "id": 12,
+    "code": "jVjBc0ARPyaWjxU",
+    "status": true,
+    "title": "Xbox Series X",
+    "description": "Microsoft Xbox Series X",
+    "price": 330000,
+    "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_963862-MLA45041918050_032021-O.jpg",
+    "category": "Gaming",
+    "stock": 13
   }
 ]

@@ -1,27 +1,15 @@
 <h1>Bienvenido a mi nueva entrega! 😎</h1>
 
-<h2>Productos</h2>
+<h2>Productos (pasar mouse sobre las cards 🥹)</h2>
 {{#if products.length}}
-  <div class="tableContainer">
-    <table class="table">
-      <tr>
-        <th>Nombre</th>
-        <th>Precio</th>
-        <th>Imagen</th>
-      </tr>
-      {{#each products}}
-        <tr>
-          <td>{{title}}</td>
-          <td>{{price}}</td>
-          <td><img
-              class="img"
-              src="{{thumbnail}}"
-              alt="imagen del producto"
-            /></td>
-        </tr>
-      {{/each}}
-    </table>
-  </div>
+  <section class="productsContainer">
+    {{#each products}}
+      <div class="productsCard">
+        <h3>Nombre: {{title}}</h3>
+        <h4>Precio:{{price}}</h4>
+        <img src="{{thumbnail}}" /></div>
+    {{/each}}
+  </section>
 {{else}}
   <h3>No hay productos agregados!</h3>
 {{/if}}

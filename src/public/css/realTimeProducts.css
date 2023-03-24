@@ -8,7 +8,7 @@ h2 {
   height: 60px;
 }
 
-.productsCard {
+.product {
   display: grid;
   grid-template-columns: 14vw 14vw 14vw 14vw 14vw 14vw 14vw;
   align-items: center;
