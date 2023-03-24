@@ -1,21 +1,20 @@
-h1 {
-  text-align: center;
-}
-
+h1,
 h2 {
   text-align: center;
 }
 
 .img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
 }
 
-.tableContainer {
-  display: flex;
-  justify-content: space-evenly;
+.productsCard {
+  display: grid;
+  grid-template-columns: 14vw 14vw 14vw 14vw 14vw 14vw 14vw;
+  align-items: center;
+  justify-items: center;
 }
 
-td {
-  padding: 0 40px;
+.formContainer {
+  text-align: center;
 }

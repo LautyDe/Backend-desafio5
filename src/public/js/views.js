@@ -7,7 +7,7 @@ socketClient.on("products", data => {
 function render(data) {
   const html = data
     .map(item => {
-      return `
+      return `<div class="productsCard">
       <div>${item.title}</div>
       <div>${item.description}</div>
       <div>${item.price}</div>
@@ -20,6 +20,7 @@ function render(data) {
       <input type="button" value="Eliminar producto 😭" onclick="deleteProduct(${
         item.id
       })"></input>
+      </div>
       `;
     })
     .join(" ");
