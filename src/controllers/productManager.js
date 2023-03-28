@@ -1,11 +1,9 @@
-import fs from "fs";
 import FileManager from "./fileManager.js";
-
-const fileManager = new FileManager("src/db/products.json");
 
 export default class ProductManager {
   constructor(archivo) {
     this.archivo = archivo;
+    this._fileManager = new FileManager(this.archivo);
   }
 
   async addProduct(product) {
@@ -13,7 +11,7 @@ export default class ProductManager {
       /* verifico que el producto tenga todos los parametros */
       if (this.#paramsValidator(product)) {
         /* busco si el archivo no existe o si existe, si tiene datos*/
-        if (!this.#exists(this.archivo)) {
+        if (!this._fileManager.exists(this.archivo)) {
           /* Si el archivo no existe, lo creo con el primer carrito agregado */
           console.log("Se crea archivo");
           const productsArray = [];
@@ -28,14 +26,16 @@ export default class ProductManager {
           }
           productsArray.push(product);
           console.log("Agregando producto...");
-          await this.#writeFile(this.archivo, productsArray);
+          await this._fileManager.writeFile(this.archivo, productsArray);
           console.log(`Se agrego el producto con el id: ${product.id}`);
           return product.id;
         } else {
           /* si el archivo existe, primero verifico si esta vacio */
-          if (this.#readFile(this.archivo)) {
+          if (this._fileManager.readFile(this.archivo)) {
             console.log("Leyendo archivo...");
-            const productsArray = await this.#readFile(this.archivo);
+            const productsArray = await this._fileManager.readFile(
+              this.archivo
+            );
             if (productsArray.length === 0) {
               /* si esta vacio no le paso parametro al idGenerator, por lo que le pondra id: 1 */
               product = {
@@ -59,7 +59,7 @@ export default class ProductManager {
             }
             productsArray.push(product);
             /* escribo el producto */
-            this.#writeFile(this.archivo, productsArray);
+            this._fileManager.writeFile(this.archivo, productsArray);
             console.log(`Se agrego el producto con el id: ${product.id}`);
             return product.id;
           }
@@ -73,8 +73,8 @@ export default class ProductManager {
   async getAll() {
     try {
       /* chequeo si existe el documento */
-      if (this.#exists(this.archivo)) {
-        const productsArray = await this.#readFile(this.archivo);
+      if (this._fileManager.exists(this.archivo)) {
+        const productsArray = await this._fileManager.readFile(this.archivo);
         /* una vez que verifico que existe, veo si esta vacio o si tiene contenido */
         if (productsArray.length !== 0) {
           return productsArray;
@@ -90,8 +90,8 @@ export default class ProductManager {
   async getById(id) {
     try {
       /* chequeo si existe el documento */
-      if (this.#exists(this.archivo)) {
-        const productsArray = await this.#readFile(this.archivo);
+      if (this._fileManager.exists(this.archivo)) {
+        const productsArray = await this._fileManager.readFile(this.archivo);
         /* uso find para buscar el producto que coincida con el id solicitado */
         const productId = productsArray.find(item => item.id === id);
         if (!productId) {
@@ -109,13 +109,13 @@ export default class ProductManager {
   async updateProduct(id, product) {
     try {
       /* chequeo si existe el documento */
-      if (this.#exists(this.archivo)) {
-        const productsArray = await this.#readFile(this.archivo);
+      if (this._fileManager.exists(this.archivo)) {
+        const productsArray = await this._fileManager.readFile(this.archivo);
         const productsIndex = productsArray.findIndex(item => item.id === id);
         if (productsIndex !== -1) {
           const updateProduct = { ...productsArray[productsIndex], ...product };
           productsArray.splice(productsIndex, 1, updateProduct);
-          await this.#writeFile(this.archivo, productsArray);
+          await this._fileManager.writeFile(this.archivo, productsArray);
           return updateProduct;
         } else {
           throw new Error(`No se encontro un producto con el id solicitado`);
@@ -131,17 +131,17 @@ export default class ProductManager {
   async deleteById(id) {
     try {
       /* chequeo si existe el documento */
-      if (this.#exists(this.archivo)) {
-        const productsArray = await this.#readFile(this.archivo);
+      if (this._fileManager.exists(this.archivo)) {
+        const productsArray = await this._fileManager.readFile(this.archivo);
         /* verifico que exista el producto con el id solicitado */
         console.log(`Buscando producto con id: ${id}`);
         if (productsArray.some(item => item.id === id)) {
-          const productsArray = await this.#readFile(this.archivo);
+          const productsArray = await this._fileManager.readFile(this.archivo);
           const removedProduct = await this.getById(id);
           /* elimino el producto */
           console.log(`Eliminando producto con id solicitado...`);
           const newProductsArray = productsArray.filter(item => item.id !== id);
-          this.#writeFile(this.archivo, newProductsArray);
+          this._fileManager.writeFile(this.archivo, newProductsArray);
           console.log(`Producto con el id ${id} eliminado`);
           return removedProduct;
         } else {
@@ -158,10 +158,10 @@ export default class ProductManager {
   async deleteAll() {
     try {
       /* chequeo si existe el documento */
-      if (this.#exists(this.archivo)) {
+      if (this._fileManager.exists(this.archivo)) {
         let newArray = [];
         console.log("Borrando datos...");
-        await this.#writeFile(this.archivo, newArray);
+        await this._fileManager.writeFile(this.archivo, newArray);
         console.log(`Se borraron todos los datos del archivo ${this.archivo}`);
       } else {
         throw new Error(`El archivo ${this.archivo} no existe`);
@@ -218,37 +218,6 @@ export default class ProductManager {
       } else if (product.code) {
         throw new Error(`El producto no se debe cargar con el code`);
       }
-    }
-  }
-
-  #exists(archivo) {
-    /* verifico si existe el archivo */
-    try {
-      if (!fs.existsSync(archivo)) {
-        throw new Error("El archivo no existe");
-      } else {
-        return true;
-      }
-    } catch (error) {
-      console.log(`Error buscando el archivo: ${error.message}`);
-    }
-  }
-
-  async #readFile(archivo) {
-    try {
-      /* leo el archivo */
-      const data = await fs.readFileSync(archivo);
-      return JSON.parse(data);
-    } catch (error) {
-      console.log(`Error leyendo el archivo: ${error.message}`);
-    }
-  }
-
-  async #writeFile(archivo, data) {
-    try {
-      await fs.writeFileSync(archivo, JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.log(`Error escribiendo el archivo: ${error.message}`);
     }
   }
 }

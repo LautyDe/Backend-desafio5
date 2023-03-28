@@ -28,9 +28,9 @@ export default class FileManager {
     }
   }
 
-  async writeFile(data) {
+  async writeFile(archivo, data) {
     try {
-      await fs.writeFileSync(this.archivo, JSON.stringify(data, null, 2));
+      await fs.writeFileSync(archivo, JSON.stringify(data, null, 2));
     } catch (error) {
       console.log(`Error escribiendo el archivo: ${error.message}`);
     }
